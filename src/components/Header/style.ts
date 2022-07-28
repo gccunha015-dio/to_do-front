@@ -1,9 +1,8 @@
-import { flexCentered } from '../../global/style';
-
-const headerClasses = `
-  ${flexCentered}
-  bg-indigo-900
-  rounded-b-3xl
+export const headerClasses = `
+  bg-[#00C6BF]
+  h-[10vh]
+  w-full
+  flex
+  font-bold
+  text-[2rem]
 `;
-
-export default headerClasses;

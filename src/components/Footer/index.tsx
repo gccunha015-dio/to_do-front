@@ -1,4 +1,4 @@
-import footerClasses from './style';
+import { footerClasses } from './style';
 
 function Footer() {
 	return <footer className={footerClasses}>Footer</footer>;

@@ -1,8 +1,5 @@
-import { flexCentered } from '../../global/style';
-
-const mainClasses = `
-  ${flexCentered}
-  h-full
+export const mainClasses = `
+  flex
+  items-start
+  h-[80vh]
 `;
-
-export default mainClasses;

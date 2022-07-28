@@ -1,4 +1,4 @@
-import headerClasses from './style';
+import { headerClasses } from './style';
 
 function Header() {
 	return (

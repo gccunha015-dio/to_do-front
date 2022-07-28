@@ -1,12 +1,12 @@
-import { flexCentered } from '../../global/style';
-
-const tasksClasses = `
-  ${flexCentered}
-  flex-col
+export const divClasses = `
   h-full
-  w-[75vw]
-  border-colapse
-  py-10
+  w-full
+  overflow-y-auto
 `;
 
-export default tasksClasses;
+export const tableClasses = `
+  border-colapse
+  table-fixed
+  w-full
+  h-full
+`;

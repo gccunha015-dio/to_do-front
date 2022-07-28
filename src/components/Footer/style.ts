@@ -1,9 +1,6 @@
-import { flexCentered } from '../../global/style';
-
-const footerClasses = `
-  ${flexCentered}
-  bg-indigo-900
-  rounded-t-3xl
+export const footerClasses = `
+  bg-[#00C6BF]
+  h-[10vh]
+  w-full
+  flex
 `;
-
-export default footerClasses;

@@ -1,14 +1,11 @@
-const layoutClasses = `
-  grid
-  grid-cols-1
-  grid-rows-[10vh_80vh_10vh]
-  place-items-stretch
+export const divClasses = `
   text-white
   bg-slate-900
-  text-xl
+  text-[1.5rem]
   font-mono
-  absolute
-  w-full
+  h-screen
+  w-screen
+  flex
+  flex-col
+  justify-between
 `;
-
-export default layoutClasses;

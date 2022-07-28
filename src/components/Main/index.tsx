@@ -1,5 +1,5 @@
 import Tasks from '../../features/tasks';
-import mainClasses from './style';
+import { mainClasses } from './style';
 
 function Main() {
 	return (

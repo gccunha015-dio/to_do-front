@@ -1,11 +1,11 @@
 import Footer from '../Footer';
 import Header from '../Header';
 import Main from '../Main';
-import layoutClasses from './style';
+import { divClasses } from './style';
 
 function Layout() {
 	return (
-		<div className={layoutClasses}>
+		<div className={divClasses}>
 			<Header />
 			<Main />
 			<Footer />
