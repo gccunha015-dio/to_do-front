@@ -1,5 +1,6 @@
 import CreateFromCSV from '../CreateFromCSV';
 import CreateTask from '../CreateTask';
+import DeleteSelected from '../DeleteSelected';
 import { tfootClasses } from './style';
 
 function TFooter() {
@@ -13,6 +14,11 @@ function TFooter() {
 			<tr>
 				<td colSpan={4}>
 					<CreateFromCSV />
+				</td>
+			</tr>
+			<tr>
+				<td colSpan={4}>
+					<DeleteSelected />
 				</td>
 			</tr>
 		</tfoot>
