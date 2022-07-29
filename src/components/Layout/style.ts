@@ -1,6 +1,6 @@
 export const divClasses = `
   text-white
-  bg-slate-900
+  bg-app_slate
   text-[1.5rem]
   font-mono
   h-screen

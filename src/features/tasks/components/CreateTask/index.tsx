@@ -1,17 +1,41 @@
-function CreateOne() {
+import { FormEvent, useRef } from 'react';
+import InputSubmit from '../../../../components/InputSubmit';
+import LabelledIput from '../../../../components/LabelledInput';
+import { formClasses } from './style';
+
+function CreateTask() {
+	const description = useRef<HTMLInputElement>(null);
+	const isDone = useRef<HTMLInputElement>(null);
+
+	const descriptionProps = { ref: description, label: 'Description' };
+	const isDoneProps = {
+		ref: isDone,
+		label: 'Is Done ?',
+		inputProps: { type: 'checkbox' },
+	};
+	const submitProps = { value: 'Create Task' };
+	const createTask = async () => {
+		if (!description.current || !isDone.current) return;
+		const descriptionValue = description.current.value;
+		const isDoneValue = isDone.current.checked;
+		const creationDate = new Date().toLocaleString();
+		console.log(descriptionValue);
+		console.log(isDoneValue);
+		console.log(creationDate);
+	};
 	return (
-		<form className='flex justify-evenly'>
-			<label className='flex flex-col'>
-				Description
-				<input type='text' />
-			</label>
-			<label className='flex flex-col'>
-				Is done ?
-				<input type='checkbox' />
-			</label>
-			<input type='submit' value='Create Task' />
+		<form
+			className={formClasses}
+			onSubmit={async (event: FormEvent) => {
+				event.preventDefault();
+				await createTask();
+			}}
+		>
+			<LabelledIput {...descriptionProps} />
+			<LabelledIput {...isDoneProps} />
+			<InputSubmit {...submitProps} />
 		</form>
 	);
 }
 
-export default CreateOne;
+export default CreateTask;

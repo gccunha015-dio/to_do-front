@@ -1,5 +1,5 @@
 import CreateFromCSV from '../CreateFromCSV';
-import CreateOne from '../CreateTask';
+import CreateTask from '../CreateTask';
 import { tfootClasses } from './style';
 
 function TFooter() {
@@ -7,7 +7,7 @@ function TFooter() {
 		<tfoot className={tfootClasses}>
 			<tr>
 				<td colSpan={4}>
-					<CreateOne />
+					<CreateTask />
 				</td>
 			</tr>
 			<tr>

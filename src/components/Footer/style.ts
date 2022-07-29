@@ -1,5 +1,5 @@
 export const footerClasses = `
-  bg-[#00C6BF]
+  bg-app_green
   h-[10vh]
   w-full
   flex
