@@ -1,14 +1,16 @@
 import { FormEvent } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import InputSubmit from '../../../../components/InputSubmit';
-import { selectSelected } from '../../slice';
+import { deleteTasks, readTasks, selectSelected, toggleAll } from '../../slice';
 
 function DeleteSelected() {
+	const dispatch = useAppDispatch();
 	const selectedTasks = useAppSelector(selectSelected);
 
-	const deleteSelected = (event: FormEvent) => {
+	const deleteSelected = async (event: FormEvent) => {
 		event.preventDefault();
-		console.log('Delete selected tasks');
+		await dispatch(deleteTasks(selectedTasks));
+		dispatch(readTasks());
 	};
 
 	const submitProps = { value: 'Delete Selected' };

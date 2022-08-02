@@ -3,7 +3,7 @@ import { RootState } from '../../app/store';
 import * as asyncActions from './asyncActions';
 import { TTask } from '../../@types';
 
-export const { createTasks, readTasks, updateTask } = asyncActions;
+export const { createTasks, readTasks, updateTask, deleteTasks } = asyncActions;
 
 export interface TasksState {
 	all: TTask[];
@@ -27,13 +27,12 @@ export const tasksSlice = createSlice({
 				: selected.push(payload);
 		},
 
-		toggleAll({ all, selected }, { payload }: PayloadAction<boolean>) {
-			selected.length = 0;
-			payload && selected.push(...all.map(({ id }) => Number(id)));
+		toggleAll(state, { payload }: PayloadAction<boolean>) {
+			state.selected = payload ? state.all.map(({ id }) => Number(id)) : [];
 		},
 	},
 	extraReducers: (builder) => {
-		[createTasks, readTasks, updateTask].forEach((action) => {
+		[createTasks, readTasks, updateTask, deleteTasks].forEach((action) => {
 			builder
 				.addCase(action.pending, (state) => {
 					state.status = 'loading';
@@ -47,10 +46,15 @@ export const tasksSlice = createSlice({
 				state.status = 'idle';
 			});
 		});
-		builder.addCase(readTasks.fulfilled, (state, action) => {
-			state.status = 'idle';
-			state.all = action.payload;
-		});
+		builder
+			.addCase(readTasks.fulfilled, (state, action) => {
+				state.status = 'idle';
+				state.all = action.payload;
+			})
+			.addCase(deleteTasks.fulfilled, (state) => {
+				state.status = 'idle';
+				state.selected = [];
+			});
 	},
 });
 

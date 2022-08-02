@@ -18,3 +18,8 @@ export async function updateTask({ id, description, isDone }: TTask) {
 	});
 	return data.updatedTask as TTask;
 }
+
+export async function deleteTasks(ids?: number[]) {
+	const params = ids ? { ids: ids.toString() } : {};
+	await api.delete('/tasks', { params });
+}

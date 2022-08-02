@@ -16,3 +16,8 @@ export const updateTask = createAsyncThunk(
 	'tasks/updateTask',
 	async (task: TTask) => await service.updateTask(task)
 );
+
+export const deleteTasks = createAsyncThunk(
+	'tasks/deleteTasks',
+	async (ids?: number[]) => await service.deleteTasks(ids)
+);
