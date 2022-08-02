@@ -1,9 +1,12 @@
 import { FormEvent, useRef } from 'react';
+import { useAppDispatch } from '../../../../app/hooks';
 import InputSubmit from '../../../../components/InputSubmit';
 import LabelledIput from '../../../../components/LabelledInput';
+import { createTasks, readTasks } from '../../slice';
 import { formClasses } from './style';
 
 function CreateTask() {
+	const dispatch = useAppDispatch();
 	const description = useRef<HTMLInputElement>(null);
 	const isDone = useRef<HTMLInputElement>(null);
 
@@ -18,10 +21,10 @@ function CreateTask() {
 		if (!description.current || !isDone.current) return;
 		const descriptionValue = description.current.value;
 		const isDoneValue = isDone.current.checked;
-		const creationDate = new Date().toLocaleString();
-		console.log(descriptionValue);
-		console.log(isDoneValue);
-		console.log(creationDate);
+		await dispatch(
+			createTasks([{ description: descriptionValue, isDone: isDoneValue }])
+		);
+		dispatch(readTasks());
 	};
 	return (
 		<form

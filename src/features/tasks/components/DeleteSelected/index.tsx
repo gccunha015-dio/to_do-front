@@ -1,8 +1,10 @@
 import { FormEvent } from 'react';
+import { useAppSelector } from '../../../../app/hooks';
 import InputSubmit from '../../../../components/InputSubmit';
+import { selectSelected } from '../../slice';
 
 function DeleteSelected() {
-	const selectedTasks = [1] as number[];
+	const selectedTasks = useAppSelector(selectSelected);
 
 	const deleteSelected = (event: FormEvent) => {
 		event.preventDefault();

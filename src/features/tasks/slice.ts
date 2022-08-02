@@ -1,7 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { readAll } from './asyncActions';
-import { TTask } from '../../../@types';
+import * as asyncActions from './asyncActions';
+import { TTask } from '../../@types';
+
+export const { createTasks, readTasks, updateTask } = asyncActions;
 
 export interface TasksState {
 	all: TTask[];
@@ -16,9 +18,22 @@ export const tasksSlice = createSlice({
 		selected: [],
 		status: 'idle',
 	} as TasksState,
-	reducers: {},
+	reducers: {
+		toggleOne({ selected }, { payload }: PayloadAction<number>) {
+			selected.includes(payload)
+				? selected.findIndex(
+						(value, index) => value === payload && selected.splice(index, 1)
+				  )
+				: selected.push(payload);
+		},
+
+		toggleAll({ all, selected }, { payload }: PayloadAction<boolean>) {
+			selected.length = 0;
+			payload && selected.push(...all.map(({ id }) => Number(id)));
+		},
+	},
 	extraReducers: (builder) => {
-		[readAll].forEach((action) => {
+		[createTasks, readTasks, updateTask].forEach((action) => {
 			builder
 				.addCase(action.pending, (state) => {
 					state.status = 'loading';
@@ -27,24 +42,19 @@ export const tasksSlice = createSlice({
 					state.status = 'failed';
 				});
 		});
-		// [addMovieToList, removeMovieFromList].forEach((action) => {
-		// 	builder.addCase(action.fulfilled, (state) => {
-		// 		state.status = 'idle';
-		// 	});
-		// });
-		// builder
-		// 	.addCase(searchMovie.fulfilled, (state, action) => {
-		// 		state.status = 'idle';
-		// 		state.movies = action.payload;
-		// 	})
-		// 	.addCase(getLists.fulfilled, (state, action) => {
-		// 		state.status = 'idle';
-		// 		state.lists = action.payload;
-		// 	});
+		[createTasks, updateTask].forEach((action) => {
+			builder.addCase(action.fulfilled, (state) => {
+				state.status = 'idle';
+			});
+		});
+		builder.addCase(readTasks.fulfilled, (state, action) => {
+			state.status = 'idle';
+			state.all = action.payload;
+		});
 	},
 });
 
-export const {} = tasksSlice.actions;
+export const { toggleOne, toggleAll } = tasksSlice.actions;
 
 export const selectAll = (state: RootState) => state.tasks.all;
 export const selectSelected = (state: RootState) => state.tasks.selected;
