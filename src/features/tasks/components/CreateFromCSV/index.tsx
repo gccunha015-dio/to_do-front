@@ -1,26 +1,59 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { TTask } from '../../../../@types';
+import { useAppDispatch } from '../../../../app/hooks';
 import FileSelector from '../../../../components/FileSelector';
 import InputSubmit from '../../../../components/InputSubmit';
+import { createTasks, readTasks } from '../../slice';
 import { formClasses } from './style';
 
 function CreateFromCSV() {
-	const [file, setFile] = useState<string>('');
+	const dispatch = useAppDispatch();
+	const [file, setFile] = useState<File>();
+	const [fileData, setFileData] = useState<TTask[]>([]);
+
+	const handleSubmit = async (event: FormEvent) => {
+		event.preventDefault();
+		if (!fileData.length) return;
+		await dispatch(createTasks(fileData));
+		dispatch(readTasks());
+		setFile(undefined);
+		setFileData([]);
+	};
+
+	const readAndParseCSV = (file: File) => {
+		const reader = new FileReader();
+		reader.onload = ({ target }) => parseCSV(target?.result as string);
+		reader.readAsText(file);
+	};
+
+	const parseCSV = (text: string) => {
+		const rows = text.split('\n');
+		rows.splice(0, 1);
+		setFileData(
+			rows.map((row) => {
+				const [description, isDone] = row.split(',');
+				return { description, isDone: isDone === 'true' } as TTask;
+			})
+		);
+	};
 
 	const fileSelectorProps = {
 		label: 'Choose CSV file to create multiple tasks at once',
 		inputProps: {
-			onChange: (event: ChangeEvent<HTMLInputElement>) =>
-				setFile(event.target.value.split('\\')[2]),
+			onChange: (event: ChangeEvent<HTMLInputElement>) => {
+				const target = event.target;
+				const _file = target.files ? target.files[0] : undefined;
+				setFile(_file);
+				if (!_file) return;
+				readAndParseCSV(_file);
+				target.value = '';
+			},
 		},
 	};
-	const submitProps = { value: `Create from ${file}` };
+
+	const submitProps = { value: `Create from ${file?.name}` };
 	return (
-		<form
-			className={formClasses}
-			onSubmit={(event: FormEvent) => {
-				event.preventDefault();
-			}}
-		>
+		<form className={formClasses} onSubmit={handleSubmit}>
 			<FileSelector {...fileSelectorProps} />
 			{file ? <InputSubmit {...submitProps} /> : null}
 		</form>

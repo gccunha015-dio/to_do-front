@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import InputSubmit from '../../../../components/InputSubmit';
-import { deleteTasks, readTasks, selectSelected, toggleAll } from '../../slice';
+import { deleteTasks, readTasks, selectSelected } from '../../slice';
 
 function DeleteSelected() {
 	const dispatch = useAppDispatch();
