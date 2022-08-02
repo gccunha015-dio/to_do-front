@@ -32,7 +32,7 @@ function CreateFromCSV() {
 		setFileData(
 			rows.map((row) => {
 				const [description, isDone] = row.split(',');
-				return { description, isDone: isDone === 'true' } as TTask;
+				return { description, isDone: isDone === 'true' };
 			})
 		);
 	};
@@ -42,10 +42,14 @@ function CreateFromCSV() {
 		inputProps: {
 			onChange: (event: ChangeEvent<HTMLInputElement>) => {
 				const target = event.target;
-				const _file = target.files ? target.files[0] : undefined;
-				setFile(_file);
-				if (!_file) return;
-				readAndParseCSV(_file);
+				const files = target.files;
+				setFile(
+					files && files[0] && files[0].type.endsWith('csv')
+						? files[0]
+						: undefined
+				);
+				if (!files || !files[0]) return;
+				readAndParseCSV(files[0]);
 				target.value = '';
 			},
 		},
